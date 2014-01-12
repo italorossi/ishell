@@ -3,11 +3,13 @@
 
 import readline
 from pycli import logger
+from pycli.console import Console
 
 __all__ = ["Command"]
 
-class Command:
+class Command(Console):
     def  __init__(self, name, help='No help provided', dynamic_args=False):
+        Console.__init__(self)
         self.name = name
         self.childs = {}
         self.child_names = []

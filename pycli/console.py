@@ -81,10 +81,11 @@ class Console:
                 input_ = raw_input(self.prompt)
                 if not input_:
                     self.help()
+                elif input_ in ('quit', 'exit'):
+                    break
                 else:
                     self.walk_and_run(input_)
 
-                # Process
             except Exception, e:
                 print "Error: %s" % e
                 sys.exit(1)

@@ -5,12 +5,10 @@ from pycli import logger
 
 
 class Console:
-    def __init__(self, prompt=None):
+    def __init__(self, prompt="Prompt", prompt_delim=">"):
         self.childs = {}
-        if not prompt:
-            self.prompt = "Promp> "
-        else:
-            self.prompt = prompt
+        self.prompt = prompt
+        self.prompt_delim = prompt_delim
 
     def addChild(self, cmd):
         self.childs[cmd.name] = cmd
@@ -73,12 +71,13 @@ class Console:
         print
 
     def loop(self):
+        previous_completer = readline.get_completer()
         readline.parse_and_bind("tab: complete")
         readline.set_completer(self.walk)
-
+        prompt = self.prompt + self.prompt_delim
         while 1:
             try:
-                input_ = raw_input(self.prompt)
+                input_ = raw_input(prompt)
                 if not input_:
                     self.help()
                 elif input_ in ('quit', 'exit'):
@@ -89,3 +88,5 @@ class Console:
             except Exception, e:
                 print "Error: %s" % e
                 sys.exit(1)
+
+        readline.set_completer(previous_completer)

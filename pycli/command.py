@@ -22,9 +22,16 @@ class Command:
         self.childs[cmd.name] = cmd
         return cmd
 
-    def args(self, word=None):
-        """Overwrite this method with custom completions"""
-        return [c for c in ['10', '20', '30'] if word is None or c.startswith(word)]
+    def args(self):
+        """Overwrite this method with custom completions."""
+        return ['10', '20']
+
+    def _dynamic_args(self, state, buf=''):
+        args = self.args()
+        completions = [c for c in args if buf is None or c.startswith(buf)]
+        completions = completions + [None]
+        logger.debug("Returned dynamic args: %s" % completions)
+        return completions[state]
 
     def complete(self, line, buf, state, run=False, full_line=None):
         logger.debug('Walked to: %s' % self.name)
@@ -48,16 +55,13 @@ class Command:
             else:
                 logger.debug('Not walking because %s was not found in childs' % next_command)
                 if has_arg_completed:
-                    # Completing with child commands
-                    completions = [c + ' ' for c in self.child_names if c.startswith(next_command)] + [None]
-                    logger.debug('PossibleCompletions=>%s' % completions)
-                    return completions[state]
+                    return self._next_command(state, next_command)
 
         logger.debug('Line=>%s, Buf=>%s, state=>%s' % (line, buf, state))
 
         if run:
             logger.debug('Executing %s' % self.name)
-            self.run(full_line.rstrip())
+            return self.run(full_line.rstrip())
 
         logger.debug('Starting arg complete')
 
@@ -71,43 +75,27 @@ class Command:
             readline.insert_text(" ")
             logger.debug("Inserted blank space")
 
-        # Starting complete for this command
-        # TODO: Reduce this code
-        # if self.dynamic_args():
-        #     return self.get_dynamic_args(line, buf)
-        # else:
-        #     return
+        if not self.dynamic_args:
+            return self._next_command(state, buf)
+        logger.debug("IN COMMAND %s" % self.name)
+        logger.debug("DYNAMIC: %s" % self.dynamic_args)
 
-        if not buf.strip():
-            if not self.dynamic_args:
-                logger.debug('No buf provided, returning all possibilities: %s' % self.child_names)
-                completions = [c + ' ' for c in self.child_names] + [None]
-                logger.debug('PossibleCompletions=>%s' % completions)
-                return completions[state]
+        if self.dynamic_args:
+            if (buf.strip() in self.args()):
+                return self._next_command(state, buf)
+            elif line and line[0] in self.args():
+                return self._next_command(state, buf)
             else:
-                if not line:
-                    completions = [c + ' ' for c in self.args()] + [None]
-                    logger.debug('PossibleCompletions=>%s' % completions)
-                    return completions[state]
-                else:
-                    completions = [c + ' ' for c in self.child_names] + [None]
-                    logger.debug('PossibleCompletions=>%s' % completions)
-                    return completions[state]
+                return self._dynamic_args(state, buf)
         else:
-            if not self.dynamic_args:
-                completions = [c + ' ' for c in self.child_names if c.startswith(buf)] + [None]
-                logger.debug('PossibleCompletions=>%s' % completions)
-                return completions[state]
-            else:
-                if buf.strip() in self.args():
-                    # Jump to the next possibles commands
-                    completions = [c + ' ' for c in self.child_names if c.startswith(buf)] + [None]
-                    logger.debug('PossibleCompletions=>%s' % completions)
-                    return completions[state]
-                else:
-                    completions = [c + ' ' for c in self.args() if c.startswith(buf)] + [None]
-                    logger.debug('PossibleCompletions=>%s' % completions)
-                    return completions[state]
+            return self._next_command(state, buf)
+
+    def _next_command(self, state, buf=''):
+        args = self.child_names
+        completions = [c + ' ' for c in args if c.startswith(buf)]
+        completions = completions + [None]
+        logger.debug('PossibleCompletions=>%s' % completions)
+        return completions[state]
 
     def run(self, line):
         print "Exec %s(line=%s), overwrite this method!" % (self.name, line)

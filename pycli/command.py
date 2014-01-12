@@ -77,8 +77,6 @@ class Command:
 
         if not self.dynamic_args:
             return self._next_command(state, buf)
-        logger.debug("IN COMMAND %s" % self.name)
-        logger.debug("DYNAMIC: %s" % self.dynamic_args)
 
         if self.dynamic_args:
             if (buf.strip() in self.args()):

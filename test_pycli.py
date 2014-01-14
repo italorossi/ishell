@@ -12,7 +12,8 @@ class TestConsole(unittest.TestCase):
     def test_console_has_prompt(self):
         """Console should have a default prompt string."""
         c = Console()
-        assert c.prompt == "Promp> "
+        assert c.prompt == "Prompt"
+        assert c.prompt_delim == ">"
 
 
 class TestCommand(unittest.TestCase):

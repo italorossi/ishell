@@ -12,17 +12,11 @@ class Command(Console):
         Console.__init__(self)
         self.name = name
         self.childs = {}
-        self.child_names = []
         self.dynamic_args = dynamic_args
         self.help = help
 
     def log(self, msg):
         logger.info('Command %s - %s' % msg)
-
-    def addChild(self, cmd):
-        self.child_names.append(cmd.name)
-        self.childs[cmd.name] = cmd
-        return cmd
 
     def args(self):
         """Overwrite this method with custom completions."""
@@ -50,7 +44,7 @@ class Command(Console):
                     next_command = line[1]
                     line.pop(0)
 
-            if next_command in self.child_names:
+            if next_command in self.childs.keys():
                 # Already completed, walking
                 cmd = self.childs[next_command]
                 return cmd.complete(line[1:], buf, state, run, full_line)
@@ -91,7 +85,7 @@ class Command(Console):
             return self._next_command(state, buf)
 
     def _next_command(self, state, buf=''):
-        args = self.child_names
+        args = self.childs.keys()
         completions = [c + ' ' for c in args if c.startswith(buf)]
         completions = completions + [None]
         logger.debug('PossibleCompletions=>%s' % completions)

@@ -12,6 +12,7 @@ class Console:
 
     def addChild(self, cmd):
         self.childs[cmd.name] = cmd
+        return cmd
 
     def get_command(self, cmd_name):
         return self.childs[cmd_name]

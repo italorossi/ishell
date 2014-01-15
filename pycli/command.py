@@ -31,7 +31,6 @@ class Command(Console):
 
     def complete(self, line, buf, state, run=False, full_line=None):
         logger.debug('Walked to: %s' % self.name)
-
         if line:
             # Trying to walk to the next child or suggest the next one
             next_command = line[0]
@@ -45,6 +44,15 @@ class Command(Console):
                     line.pop(0)
 
             if next_command in self.childs.keys():
+                if buf:
+                    count = 0
+                    for c in self.childs.keys():
+                        if c.startswith(buf):
+                            count += 1
+                    if count > 1:
+                        logger.debug("More than one candidate, not walking in %s" % buf)
+                        return self._next_command(state, buf)
+                logger.debug("Found %s in childs, walking." % next_command)
                 # Already completed, walking
                 cmd = self.childs[next_command]
                 return cmd.complete(line[1:], buf, state, run, full_line)

@@ -66,6 +66,9 @@ class Command(Console):
             if len(line) and buf and line[0] in self.args():
                 readline.insert_text(" ")
                 logger.debug("Inserted blank space")
+            elif len(line) and not buf and line[0] not in self.args():
+                logger.debug("Found an unknown arg, suggesting next command.")
+                return self._next_command(state, buf)
 
         if buf == self.name:
             readline.insert_text(" ")

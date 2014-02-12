@@ -100,6 +100,13 @@ class Command(Console):
         completions = [c + ' ' for c in args if c.startswith(buf)]
         completions = completions + [None]
         logger.debug('PossibleCompletions=>%s' % completions)
+        if len(completions) > 2 and state == 0 and not buf:
+            logger.debug("Showing all completions...")
+            print "\nPossible Completions:"
+            for child in self.childs.keys():
+                print "  %s%s" % (child.ljust(16), self.childs[child].help)
+            print "%s%s" % (self.prompt + self.prompt_delim, readline.get_line_buffer()),
+            return None
         return completions[state]
 
     def run(self, line):

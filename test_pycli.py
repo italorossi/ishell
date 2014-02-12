@@ -41,12 +41,14 @@ class TestCommand(unittest.TestCase):
         cmd3 = Command('interface')
         cmd1.addChild(cmd2)
         cmd1.addChild(cmd3)
+        # State 0 must print all commands followed by help message
+        # and return None as candidates
         candidates = cmd1.complete('', '', 0, run=False, full_line='configure ')
-        assert 'terminal ' == candidates
-        candidates = cmd1.complete('', '', 1, run=False, full_line='configure ')
-        assert 'interface ' == candidates
-        candidates = cmd1.complete('', '', 2, run=False, full_line='configure ')
         assert None == candidates
+        candidates = cmd1.complete('', 'in', 0, run=False, full_line='configure in')
+        assert 'interface ' == candidates
+        candidates = cmd1.complete('', 't', 0, run=False, full_line='configure t')
+        assert 'terminal ' == candidates
 
     def test_completion_with_buffer(self):
         """Command must complete correctly with buffer provided."""

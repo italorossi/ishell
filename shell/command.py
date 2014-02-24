@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import readline
-from pycli import logger
-from pycli.console import Console
+from shell import logger
+from shell.console import Console
 
 __all__ = ["Command"]
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import sys
 import readline
-from pycli import logger
+from shell import logger
 
 
 class Console:

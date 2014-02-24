@@ -1,6 +1,6 @@
 import unittest
-from pycli.console import Console
-from pycli.command import Command
+from shell.console import Console
+from shell.command import Command
 
 class TestConsole(unittest.TestCase):
 

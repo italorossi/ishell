@@ -10,7 +10,7 @@ setup(
     license='MIT',
     keywords='cli terminal console',
     url='http://github.com/italorossi/shell',
-    py_modules=['shell'],
+    packages=['shell'],
     long_description='Build powerful CLI with Python',
     classifiers=[
         'Development Status :: 3 - Alpha',

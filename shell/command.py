@@ -4,6 +4,7 @@
 import readline
 from shell import logger
 from shell.console import Console
+from shell.utils import _print
 
 __all__ = ["Command"]
 
@@ -102,15 +103,14 @@ class Command(Console):
         logger.debug('PossibleCompletions=>%s' % completions)
         if len(completions) > 2 and state == 0 and not buf:
             logger.debug("Showing all completions...")
-            print "\nPossible Completions:"
+            _print("Possible Completions:")
             for child in self.childs.keys():
-                print "  %s%s" % (child.ljust(16), self.childs[child].help)
-            print "%s%s" % (self.prompt + self.prompt_delim, readline.get_line_buffer()),
+                _print("  %s%s" % (child.ljust(16), self.childs[child].help))
             return None
         return completions[state]
 
     def run(self, line):
-        print "Exec %s(line=%s), overwrite this method!" % (self.name, line)
+        _print("Exec %s(line=%s), overwrite this method!" % (self.name, line))
 
     def __repr__(self):
         return "<Command:(%s), Childs(%s)>" % (self.name, "-".join(self.childs))

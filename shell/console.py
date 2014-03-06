@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import sys
+import shell
 import readline
 from shell import logger
 
@@ -76,9 +77,15 @@ class Console:
         readline.parse_and_bind("tab: complete")
         readline.set_completer(self.walk)
         prompt = self.prompt + self.prompt_delim
+        if not shell._current_prompt:
+            previous_prompt = prompt
+        else:
+            previous_prompt = self._current_prompt
+        shell._current_prompt = prompt
         while 1:
             try:
-                input_ = raw_input(prompt)
+                sys.stdout.write("\r")
+                input_ = raw_input(prompt + " ")
                 if not input_:
                     self.help()
                 elif input_ in ('quit', 'exit'):
@@ -89,5 +96,5 @@ class Console:
             except Exception, e:
                 print "Error: %s" % e
                 sys.exit(1)
-
+        shell._current_prompt = previous_prompt
         readline.set_completer(previous_completer)

@@ -11,3 +11,4 @@ logger.addHandler(hdlr)
 logger.setLevel(logging.DEBUG)
 
 __version__ = "0.1.0"
+_current_prompt = None

@@ -1,10 +1,21 @@
 # -*- coding: utf-8 -*-
 
+
+from shell.utils import _print
 import logging
 
-logger = logging.getLogger('Evolux Console')
-hdlr = logging.FileHandler('newshell.log')
+
+class ConsoleLogHandler(logging.StreamHandler):
+    def emit(self, record):
+        _print(self.format(record))
+
+    def flush(self):
+        pass
+
+
+logger = logging.getLogger('console app')
+hdlr = ConsoleLogHandler()
 formatter = logging.Formatter('%(asctime)s %(levelname)s(%(lineno)s) %(message)s')
 hdlr.setFormatter(formatter)
 logger.addHandler(hdlr)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)

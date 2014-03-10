@@ -80,7 +80,7 @@ class Console:
         if not shell._current_prompt:
             previous_prompt = prompt
         else:
-            previous_prompt = self._current_prompt
+            previous_prompt = shell._current_prompt
         shell._current_prompt = prompt
         while 1:
             try:

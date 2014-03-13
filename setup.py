@@ -2,16 +2,16 @@
 from setuptools import setup
 
 setup(
-    name='shell',
+    name='ishell',
     version='0.1.0',
     author=u'Ítalo Rossi',
     author_email='italorossib@gmail.com',
-    description='Build powerful CLI with Python',
+    description='Build Interactive Shells with Python',
     license='MIT',
-    keywords='cli terminal console',
-    url='http://github.com/italorossi/shell',
-    packages=['shell'],
-    long_description='Build powerful CLI with Python',
+    keywords='cli terminal console shell interactive',
+    url='http://github.com/italorossi/ishell',
+    packages=['ishell'],
+    long_description='Build Interactive Shells with Python',
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Topic :: Utilities',

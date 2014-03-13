@@ -1,6 +1,6 @@
 import unittest
-from shell.console import Console
-from shell.command import Command
+from ishell.console import Console
+from ishell.command import Command
 
 class TestConsole(unittest.TestCase):
 

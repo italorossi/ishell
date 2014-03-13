@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 import sys
-import shell
+import ishell
 import readline
-from shell import logger
+from ishell import logger
 
 
 class Console:   
@@ -82,11 +82,11 @@ class Console:
         readline.parse_and_bind("tab: complete")
         readline.set_completer(self.walk)
         prompt = self.prompt + self.prompt_delim
-        if not shell._current_prompt:
+        if not ishell._current_prompt:
             previous_prompt = prompt
         else:
-            previous_prompt = shell._current_prompt
-        shell._current_prompt = prompt
+            previous_prompt = ishell._current_prompt
+        ishell._current_prompt = prompt
         while 1:
             try:
                 sys.stdout.write("\r")
@@ -103,5 +103,5 @@ class Console:
             except Exception, e:
                 print "Error: %s" % e
                 sys.exit(1)
-        shell._current_prompt = previous_prompt
+        ishell._current_prompt = previous_prompt
         readline.set_completer(previous_completer)

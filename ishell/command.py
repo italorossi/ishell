@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 
 import readline
-from shell import logger
-from shell.console import Console
-from shell.utils import _print
+from ishell import logger
+from ishell.console import Console
+from ishell.utils import _print
 
 __all__ = ["Command"]
 

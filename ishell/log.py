@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-from shell.utils import _print
+from ishell.utils import _print
 import logging
 
 

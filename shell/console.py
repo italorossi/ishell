@@ -5,11 +5,13 @@ import readline
 from shell import logger
 
 
-class Console:
+class Console:   
+   
     def __init__(self, prompt="Prompt", prompt_delim=">"):
         self.childs = {}
         self.prompt = prompt
         self.prompt_delim = prompt_delim
+        self._exit = False
 
     def addChild(self, cmd):
         self.childs[cmd.name] = cmd
@@ -72,6 +74,9 @@ class Console:
             print "%15s - %30s" % (command.name, command.help)
         print
 
+    def exit(self):
+        self._exit = True
+
     def loop(self):
         previous_completer = readline.get_completer()
         readline.parse_and_bind("tab: complete")
@@ -85,13 +90,15 @@ class Console:
         while 1:
             try:
                 sys.stdout.write("\r")
+		if self._exit:
+		    break
                 input_ = raw_input(prompt + " ")
                 if not input_:
                     self.help()
                 elif input_ in ('quit', 'exit'):
                     break
                 else:
-                    self.walk_and_run(input_)
+		    self.walk_and_run(input_)
 
             except Exception, e:
                 print "Error: %s" % e

@@ -90,15 +90,15 @@ class Console:
         while 1:
             try:
                 sys.stdout.write("\r")
-        		if self._exit:
-        		    break
+                if self._exit:
+                    break
                 input_ = raw_input(prompt + " ")
                 if not input_:
                     self.help()
                 elif input_ in ('quit', 'exit'):
                     break
                 else:
-        		    self.walk_and_run(input_)
+                    self.walk_and_run(input_)
 
             except Exception, e:
                 print "Error: %s" % e

@@ -60,6 +60,43 @@ class TestCommand(unittest.TestCase):
         candidates = cmd1.complete(['t'], 't', 1, run=False, full_line='configure ')
         assert None == candidates
 
+    def test_completion_with_dynamic_arg(self):
+        cmd1 = Command('show')
+        cmd2 = Command('call', dynamic_args=True)
+        cmd3 = Command('calls', dynamic_args=True)
+        cmd2.args = lambda: ['100', '101']
+        cmd3.args = lambda: ['continuous', 'raw']
+        cmd1.addChild(cmd2)
+        cmd1.addChild(cmd3)
+
+        candidates = cmd1.complete(['c'], '', 0, run=False, full_line='show calls')
+        self.assertEqual(None, candidates)
+        candidates = cmd1.complete(['c'], 'c', 0, run=False, full_line='show calls')
+        self.assertEqual('call ', candidates)
+        candidates = cmd1.complete(['c'], 'c', 1, run=False, full_line='show calls')
+        self.assertEqual('calls ', candidates)
+
+        candidates = cmd2.complete([''], '', 0, run=False, full_line='show calls')
+        self.assertEqual(None, candidates)
+        candidates = cmd2.complete([''], '1', 0, run=False, full_line='show calls')
+        self.assertEqual('100', candidates)
+        candidates = cmd2.complete([''], '1', 1, run=False, full_line='show calls')
+        self.assertEqual('101', candidates)
+
+        candidates = cmd3.complete([''], '', 0, run=False, full_line='show calls c')
+        self.assertEqual(None, candidates)
+        candidates = cmd3.complete([''], 'c', 0, run=False, full_line='show calls c')
+        self.assertEqual('continuous', candidates)
+        candidates = cmd3.complete([''], 'r', 0, run=False, full_line='show calls c')
+        self.assertEqual('raw', candidates)
+
+        candidates = cmd1.complete(['calls', 'c'], 'c', 0, run=False, full_line='show calls c')
+        self.assertEqual('continuous', candidates)
+
+        candidates = cmd1.complete(['call', '1'], '1', 0, run=False, full_line='show calls c')
+        self.assertEqual('100', candidates)
+        candidates = cmd1.complete(['call', '1'], '1', 1, run=False, full_line='show calls c')
+        self.assertEqual('101', candidates)
 
 if __name__ == '__main__':
     unittest.main()

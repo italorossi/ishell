@@ -50,7 +50,7 @@ class Command(Console):
                     for c in self.childs.keys():
                         if c.startswith(buf):
                             count += 1
-                    if count > 1:
+                    if count > 1 and len(line) == 1:
                         logger.debug("More than one candidate, not walking in %s" % buf)
                         return self._next_command(state, buf)
                 logger.debug("Found %s in childs, walking." % next_command)

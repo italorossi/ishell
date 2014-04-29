@@ -2,11 +2,11 @@
 import sys
 import ishell
 import readline
+import traceback
 from ishell import logger
 
 
-class Console:   
-   
+class Console:
     def __init__(self, prompt="Prompt", prompt_delim=">"):
         self.childs = {}
         self.prompt = prompt
@@ -100,8 +100,8 @@ class Console:
                 else:
                     self.walk_and_run(input_)
 
-            except Exception, e:
-                print "Error: %s" % e
+            except Exception:
+                print traceback.format_exc()
                 sys.exit(1)
         ishell._current_prompt = previous_prompt
         readline.set_completer(previous_completer)

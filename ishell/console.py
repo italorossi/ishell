@@ -92,6 +92,7 @@ class Console:
                 sys.stdout.write("\r")
                 if self._exit:
                     break
+                sys.stdout.write("\033[K")
                 input_ = raw_input(prompt + " ")
                 if not input_:
                     self.help()

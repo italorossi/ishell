@@ -68,7 +68,7 @@ class Console:
     def walk_and_run(self, command):
         self.walk(command, 0, run=True, full_line=command)
 
-    def help(self):
+    def print_childs_help(self):
         print "Help:"
         for command in self.childs.values():
             print "%15s - %30s" % (command.name, command.help)
@@ -95,7 +95,7 @@ class Console:
                 sys.stdout.write("\033[K")
                 input_ = raw_input(prompt + " ")
                 if not input_:
-                    self.help()
+                    self.print_childs_help()
                 elif input_ in ('quit', 'exit'):
                     break
                 else:

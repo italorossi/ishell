@@ -127,7 +127,7 @@ class PingCommand(Command):
         destination = line.split()[-1]
         import subprocess
         try:
-            subprocess.call(['ping', '-c10', '%s' % destination])
+            subprocess.call(['ping', '-c5', '%s' % destination])
         except KeyboardInterrupt:
             _print("ping canceled.")
             return

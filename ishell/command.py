@@ -39,10 +39,14 @@ class Command(Console):
             if self.dynamic_args:
                 if len(line) > 1:
                     logger.debug("Dynamic arg '%s' found" % line[0])
-                    has_arg_completed = True
-                    # Dynamic arg already filled, jump to next word
-                    next_command = line[1]
-                    line.pop(0)
+                    for k in self.args():
+                        if k in ' '.join(line):
+                            if len(line) > len(k.split()):
+                                for j in k.split():
+                                    line.remove(j)
+                                has_arg_completed = True
+                                next_command = line[0]
+                            break
 
             if next_command in self.childs.keys():
                 if buf:

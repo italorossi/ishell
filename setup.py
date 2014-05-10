@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='ishell',
-    version='0.1.1',
+    version='0.1.2',
     author=u'Ítalo Rossi',
     author_email='italorossib@gmail.com',
     description='Build Interactive Shells with Python',

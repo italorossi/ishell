@@ -104,7 +104,7 @@ class Command(Console):
         if len(completions) > 2 and state == 0 and not buf:
             logger.debug("Showing all completions...")
             _print("Possible Completions:")
-            for child in self.childs.keys():
+            for child in sorted(self.childs.keys()):
                 _print("  %s%s" % (child.ljust(16), self.childs[child].help))
             return None
         return completions[state]

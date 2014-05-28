@@ -70,8 +70,8 @@ class Console:
 
     def print_childs_help(self):
         print "Help:"
-        for command in self.childs.values():
-            print "%15s - %30s" % (command.name, command.help)
+        for command_name in sorted(self.childs.keys()):
+            print "%15s - %s" % (command_name, self.childs[command_name].help)
         print
 
     def exit(self):

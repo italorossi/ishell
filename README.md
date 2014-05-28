@@ -4,7 +4,7 @@ ishell
 [![PyPI version](https://badge.fury.io/py/ishell.svg)](http://badge.fury.io/py/ishell)
 [![Downloads](https://pypip.in/download/ishell/badge.png)](https://pypi.python.org/pypi/ishell/)
 
-Create interactive shell with Python.
+Create an interactive shell with Python.
 
 ishell helps you to easily create an interactive shell for your application. It supports command completion, dynamic arguments, a command history, and chaining of commands.
 

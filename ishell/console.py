@@ -87,22 +87,24 @@ class Console:
         else:
             previous_prompt = ishell._current_prompt
         ishell._current_prompt = prompt
-        while 1:
-            try:
-                sys.stdout.write("\r")
-                if self._exit:
-                    break
-                sys.stdout.write("\033[K")
-                input_ = raw_input(prompt + " ")
-                if not input_:
-                    self.print_childs_help()
-                elif input_ in ('quit', 'exit'):
-                    break
-                else:
-                    self.walk_and_run(input_)
+        try:
+            while 1:
+                try:
+                    sys.stdout.write("\r")
+                    if self._exit:
+                        break
+                    sys.stdout.write("\033[K")
+                    input_ = raw_input(prompt + " ")
+                    if not input_:
+                        self.print_childs_help()
+                    elif input_ in ('quit', 'exit'):
+                        break
+                    else:
+                        self.walk_and_run(input_)
 
-            except Exception:
-                print traceback.format_exc()
-                sys.exit(1)
-        ishell._current_prompt = previous_prompt
-        readline.set_completer(previous_completer)
+                except Exception:
+                    print traceback.format_exc()
+                    sys.exit(1)
+        finally:
+            ishell._current_prompt = previous_prompt
+            readline.set_completer(previous_completer)

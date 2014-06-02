@@ -4,13 +4,13 @@ ishell
 [![PyPI version](https://badge.fury.io/py/ishell.svg)](http://badge.fury.io/py/ishell)
 [![Downloads](https://pypip.in/download/ishell/badge.png)](https://pypi.python.org/pypi/ishell/)
 
-Create interactive shell with Python.
+Create an interactive shell with Python.
 
-ishell helps you easily create a interactive shell to your application. You can complete commands hitting TAB on your keyboard.
+ishell helps you to easily create an interactive shell for your application. It supports command completion, dynamic arguments, a command history, and chaining of commands.
 
 ![Cisco like console](http://i.imgur.com/RKzuwDu.png)
 
-Instalation
+Installation
 -----------
 
 You can install ishell using pip:
@@ -35,7 +35,7 @@ Then you have:
 
 #### Command
 
-The next step is to create a new command and attach to the console:
+The next step is to create a new command and attach it to the console:
 
 ```python
 from ishell.console import Console

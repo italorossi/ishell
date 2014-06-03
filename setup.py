@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup
 
+import ishell
+
 setup(
     name='ishell',
-    version='0.1.2',
+    version=ishell.__version__,
     author=u'Ítalo Rossi',
     author_email='italorossib@gmail.com',
     description='Build Interactive Shells with Python',

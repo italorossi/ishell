@@ -100,7 +100,8 @@ class Console:
                     break
                 else:
                     self.walk_and_run(input_)
-            except KeyboardInterrupt:
+            except (KeyboardInterrupt, EOFError):
+                print "exit"
                 break
 
             except Exception:

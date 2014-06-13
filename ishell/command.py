@@ -110,7 +110,10 @@ class Command(Console):
         return completions[state]
 
     def run(self, line):
-        _print("Exec %s(line=%s), overwrite this method!" % (self.name, line))
+        if self.childs:
+            _print("Options: %s" % ', '.join(self.childs.keys()))
+        else:
+            _print("Exec %s(line=%s), overwrite this method!" % (self.name, line))
 
     def __repr__(self):
         return "<Command:(%s), Childs(%s)>" % (self.name, "-".join(self.childs))

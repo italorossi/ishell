@@ -53,6 +53,10 @@ class Console:
                 cmd = self.get_command(cmd_name)
                 return cmd.complete(line_commands[1:], buf, state, run, full_line)
 
+        if run:
+            print "Unknown Command: %s" % buf
+            self.print_childs_help()
+            return
         # Needing completion
         logger.debug('buffer=> %s, state=>%s' % (buf, state))
         tokens = buf.split()

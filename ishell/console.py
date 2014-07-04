@@ -94,7 +94,7 @@ class Console:
                     break
                 sys.stdout.write("\033[K")
                 input_ = raw_input(prompt + " ")
-                if not input_:
+                if not input_.strip():
                     self.print_childs_help()
                 elif input_ in ('quit', 'exit'):
                     break

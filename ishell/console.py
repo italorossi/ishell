@@ -6,7 +6,7 @@ import traceback
 from ishell import logger
 
 
-class Console:
+class Console(object):
     def __init__(self, prompt="Prompt", prompt_delim=">"):
         self.childs = {}
         self.prompt = prompt
@@ -27,8 +27,8 @@ class Console:
         return False
 
     def completions(self, word=None):
-        completions = [cmd.name + ' ' for cmd in self.childs.values() \
-                                if word is None or cmd.name.startswith(word)]
+        completions = [cmd.name + ' ' for cmd in self.childs.values()
+                       if word is None or cmd.name.startswith(word)]
         return completions
 
     def walk(self, buf, state, run=False, full_line=None):
@@ -47,9 +47,6 @@ class Console:
         for cmd_name in line_commands:
             if self.is_child(cmd_name):
                 logger.debug("Found existing command=>%s" % cmd_name)
-                #if not line.endswith(' '):
-                    #logger.debug("Inserting space to line buffer")
-                    #readline.insert_text(" ")
                 cmd = self.get_command(cmd_name)
                 return cmd.complete(line_commands[1:], buf, state, run, full_line)
 

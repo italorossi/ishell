@@ -30,32 +30,28 @@ class Command(Console):
         logger.debug("Returned dynamic args: %s" % completions)
         return completions[state]
 
+    def get_candidates(self, command):
+        return {k: v for k, v in self.childs.iteritems() if k.startswith(command)}
+
     def complete(self, line, buf, state, run=False, full_line=None):
         logger.debug('Walked to: %s' % self.name)
-        if line:
-            # Trying to walk to the next child or suggest the next one
+        if line and self.dynamic_args and len(line) > 1:
+            logger.debug("Dynamic arg '%s' found" % line[0])
+            has_arg_completed = True
+            # Dynamic arg already filled, jump to next word
+            next_command = line[1]
+            line.pop(0)
+        elif line:
             next_command = line[0]
             has_arg_completed = False
-            if self.dynamic_args:
-                if len(line) > 1:
-                    logger.debug("Dynamic arg '%s' found" % line[0])
-                    has_arg_completed = True
-                    # Dynamic arg already filled, jump to next word
-                    next_command = line[1]
-                    line.pop(0)
 
-            if next_command in self.childs.keys():
-                if buf:
-                    count = 0
-                    for c in self.childs.keys():
-                        if c.startswith(buf):
-                            count += 1
-                    if count > 1 and len(line) == 1:
-                        logger.debug("More than one candidate, not walking in %s" % buf)
-                        return self._next_command(state, buf)
+            candidates = self.get_candidates(next_command)
+            if candidates and len(candidates) > 1 and buf:
+                logger.debug("More than one candidate, not walking in %s" % buf)
+                return self._next_command(state, buf)
+            elif candidates and next_command in candidates:
                 logger.debug("Found %s in childs, walking." % next_command)
-                # Already completed, walking
-                cmd = self.childs[next_command]
+                cmd = candidates.pop(next_command)
                 return cmd.complete(line[1:], buf, state, run, full_line)
             else:
                 logger.debug('Not walking because %s was not found in childs' % next_command)

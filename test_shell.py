@@ -93,9 +93,9 @@ class TestCommand(unittest.TestCase):
         candidates = cmd1.complete(['calls', 'c'], 'c', 0, run=False, full_line='show calls c')
         self.assertEqual('continuous', candidates)
 
-        candidates = cmd1.complete(['call', '1'], '1', 0, run=False, full_line='show calls c')
+        candidates = cmd2.complete(['1'], '1', 0, run=False, full_line='show calls c')
         self.assertEqual('100', candidates)
-        candidates = cmd1.complete(['call', '1'], '1', 1, run=False, full_line='show calls c')
+        candidates = cmd2.complete(['1'], '1', 1, run=False, full_line='show calls c')
         self.assertEqual('101', candidates)
 
 if __name__ == '__main__':

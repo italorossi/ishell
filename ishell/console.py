@@ -21,10 +21,7 @@ class Console(object):
         return self.childs[cmd_name]
 
     def is_child(self, cmd_name):
-        for cmd in self.childs.values():
-            if cmd_name == cmd.name:
-                return True
-        return False
+        return cmd_name in self.childs
 
     def completions(self, word=None):
         completions = [cmd.name + ' ' for cmd in self.childs.values()

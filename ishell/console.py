@@ -3,6 +3,7 @@ import sys
 import ishell
 import readline
 import traceback
+from builtins import input
 from ishell import logger
 
 
@@ -48,7 +49,7 @@ class Console(object):
                 return cmd.complete(line_commands[1:], buf, state, run, full_line)
 
         if run:
-            print "Unknown Command: %s" % buf
+            print("Unknown Command: %s" % buf)
             self.print_childs_help()
             return
         # Needing completion
@@ -67,9 +68,9 @@ class Console(object):
         self.walk(command, 0, run=True, full_line=command)
 
     def print_childs_help(self):
-        print "Help:"
+        print("Help:")
         for command_name in sorted(self.childs.keys()):
-            print "%15s - %s" % (command_name, self.childs[command_name].help)
+            print("%15s - %s" % (command_name, self.childs[command_name].help))
         print
 
     def exit(self):
@@ -91,7 +92,7 @@ class Console(object):
                 if self._exit:
                     break
                 sys.stdout.write("\033[K")
-                input_ = raw_input(prompt + " ")
+                input_ = input(prompt + " ")
                 if not input_.strip():
                     self.print_childs_help()
                 elif input_ in ('quit', 'exit'):
@@ -99,11 +100,11 @@ class Console(object):
                 else:
                     self.walk_and_run(input_)
             except (KeyboardInterrupt, EOFError):
-                print "exit"
+                print("exit")
                 break
 
             except Exception:
-                print traceback.format_exc()
+                print(traceback.format_exc())
                 sys.exit(1)
 
         ishell._current_prompt = previous_prompt

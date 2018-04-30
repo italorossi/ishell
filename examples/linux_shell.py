@@ -32,7 +32,7 @@ class DiskIO(Command):
         try:
             subprocess.call(['iostat', '1'])
         except KeyboardInterrupt:
-            print "iostat stopped."
+            print("iostat stopped.")
 
 
 def main():

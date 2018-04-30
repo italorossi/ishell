@@ -8,8 +8,9 @@ from ishell.utils import _print
 
 __all__ = ["Command"]
 
+
 class Command(Console):
-    def  __init__(self, name, help='No help provided', dynamic_args=False):
+    def __init__(self, name, help='No help provided', dynamic_args=False):
         Console.__init__(self)
         self.name = name
         self.childs = {}
@@ -31,7 +32,7 @@ class Command(Console):
         return completions[state]
 
     def get_candidates(self, command):
-        return {k: v for k, v in self.childs.iteritems() if k.startswith(command)}
+        return {k: v for k, v in self.childs.items() if k.startswith(command)}
 
     def complete(self, line, buf, state, run=False, full_line=None):
         logger.debug('Walked to: %s' % self.name)
@@ -110,7 +111,7 @@ class Command(Console):
             _print("Exec %s(line=%s), overwrite this method!" % (self.name, line))
             return
 
-        print "\nIncomplete Command: %s\n" % line
+        print("\nIncomplete Command: %s\n" % line)
         self.print_childs_help()
 
     def __repr__(self):

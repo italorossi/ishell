@@ -23,6 +23,7 @@ setup(
         'License :: OSI Approved :: MIT License',
     ],
     install_requires=[
-        "readline",
+        "gnureadline",
+        "future"
     ]
 )

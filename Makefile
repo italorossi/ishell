@@ -3,4 +3,4 @@ init:
 	pip install -r test_requirements.txt
 
 test:
-	pytest --spec test_shell.py
+	pytest --spec tests/test_shell.py

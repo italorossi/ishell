@@ -1,7 +1,13 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from setuptools import setup
 
 import ishell
+from setuptools import setup, find_packages
+
+
+with open('requirements.txt') as f:
+    requires = f.readlines()
+
 
 setup(
     name='ishell',
@@ -12,18 +18,14 @@ setup(
     license='MIT',
     keywords='cli terminal console shell interactive',
     url='http://github.com/italorossi/ishell',
-    packages=['ishell'],
+    packages=find_packages(exclude=('tests', 'docs')),
     long_description='Build Interactive Shells with Python',
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Topic :: Utilities',
-        'Programming Language :: Python :: 2.5',
-        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.7',
         'License :: OSI Approved :: MIT License',
     ],
-    install_requires=[
-        "gnureadline",
-        "future"
-    ]
+    install_requires=requires
 )

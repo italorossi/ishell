@@ -84,7 +84,7 @@ console.loop()
 ![Users arguments](http://i.imgur.com/YmoENgG.png)
 
 
-##### Conecting Commands
+##### Connecting Commands
 
 You can connect commands with each other to build a more verbose command line: (Press TAB to complete)
 

@@ -13,6 +13,6 @@ files = ['ishell/command.py', 'ishell/console.py', 'ishell/__init__.py', 'ishell
 for f in files:
     ast_tree = test_source_code_compatible(open(f).read())
     if not ast_tree:
-        print("%s is not PY3 Compatiable" % f)
+        print("%s is not PY3 Compatible" % f)
     else:
         print(ast_tree)

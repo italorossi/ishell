@@ -15,6 +15,16 @@ class TestConsole(unittest.TestCase):
         assert c.prompt == "Prompt"
         assert c.prompt_delim == ">"
 
+    def test_console_has_empty_welcome_message(self):
+        """Console should has an empty welcome message."""
+        c = Console()
+        assert c.welcome_message == ""
+
+    def test_console_has_welcome_message(self):
+        """Console should have a welcome message."""
+        c = Console(welcome_message='welcome message')
+        assert c.welcome_message == "welcome message"
+
 
 class TestCommand(unittest.TestCase):
     def test_command_creation(self):

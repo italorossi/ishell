@@ -111,7 +111,8 @@ class Command(Console):
             _print("Exec %s(line=%s), overwrite this method!" % (self.name, line))
             return
 
-        print("\nIncomplete Command: %s\n" % line)
+        if len(str(line)) > 0 and line[-1] != "?":
+            print("\nIncomplete Command: %s\n" % line)
         self.print_childs_help()
 
     def __repr__(self):

@@ -49,7 +49,8 @@ class Console(object):
                 return cmd.complete(line_commands[1:], buf, state, run, full_line)
 
         if run:
-            print("Unknown Command: %s" % buf)
+            if buf != "?":
+                print("Unknown Command: %s" % buf)
             self.print_childs_help()
             return
         # Needing completion
@@ -79,6 +80,7 @@ class Console(object):
     def loop(self):
         previous_completer = readline.get_completer()
         readline.parse_and_bind("tab: complete")
+        readline.parse_and_bind('?: "--help^\n"')
         readline.set_completer(self.walk)
         prompt = self.prompt + self.prompt_delim
         if not ishell._current_prompt:
@@ -86,13 +88,32 @@ class Console(object):
         else:
             previous_prompt = ishell._current_prompt
         ishell._current_prompt = prompt
+        previous_command = ""
         while 1:
             try:
                 sys.stdout.write("\r")
                 if self._exit:
                     break
                 sys.stdout.write("\033[K")
+                readline.set_startup_hook(
+                    lambda: readline.insert_text(previous_command))
                 input_ = input(prompt + " ")
+                readline.set_startup_hook()
+                if len(str(input_)) >= 7 and input_[-7:] == "--help^":
+                    sys.stdout.write('\x1b[1A')
+                    sys.stdout.write('\x1b[2K')
+                    input_ = input_[:-7] + "?"
+                    previous_command = input_[0:-1]
+                    history_len = readline.get_current_history_length()
+                    readline.remove_history_item(history_len - 1)
+                    if len(str(input_)) > 1 and input_[-2] != " ":
+                        previous_command += "?"
+                        continue
+                    else:
+                        readline.add_history(previous_command + "?")
+                        print(prompt + " " + previous_command + "?")
+                else:
+                    previous_command = ""
                 if not input_.strip():
                     self.print_childs_help()
                 elif input_ in ('quit', 'exit'):

@@ -18,7 +18,7 @@ class TestConsole(unittest.TestCase):
     def test_console_has_empty_welcome_message(self):
         """Console should has an empty welcome message."""
         c = Console()
-        assert c.welcome_message == ""
+        assert c.welcome_message is None
 
     def test_console_has_welcome_message(self):
         """Console should have a welcome message."""

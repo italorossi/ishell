@@ -8,7 +8,7 @@ from ishell import logger
 
 
 class Console(object):
-    def __init__(self, prompt="Prompt", prompt_delim=">", welcome_message=''):
+    def __init__(self, prompt="Prompt", prompt_delim=">", welcome_message=None):
         self.childs = {}
         self.prompt = prompt
         self.prompt_delim = prompt_delim

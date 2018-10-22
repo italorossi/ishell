@@ -8,10 +8,11 @@ from ishell import logger
 
 
 class Console(object):
-    def __init__(self, prompt="Prompt", prompt_delim=">"):
+    def __init__(self, prompt="Prompt", prompt_delim=">", welcome_message=None):
         self.childs = {}
         self.prompt = prompt
         self.prompt_delim = prompt_delim
+        self.welcome_message = welcome_message
         self._exit = False
 
     def addChild(self, cmd):
@@ -86,6 +87,8 @@ class Console(object):
         else:
             previous_prompt = ishell._current_prompt
         ishell._current_prompt = prompt
+        if self.welcome_message:
+            sys.stdout.write(self.welcome_message + "\n\r")
         while 1:
             try:
                 sys.stdout.write("\r")

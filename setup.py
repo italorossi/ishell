@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from ishell import __version__ as ishell_version
 from setuptools import setup, find_packages
 from sys import platform
 
@@ -14,6 +13,7 @@ else:
 with open(requires_file) as f:
     requires = f.readlines()
 
+ishell_version = "0.1.5"
 
 setup(
     name='ishell',

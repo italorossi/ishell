@@ -1,17 +1,23 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import ishell
 from setuptools import setup, find_packages
+from sys import platform
 
+# If we're on Windows, use pyreadline instead of gnureadline
+if platform == 'win32':
+    requires_file = 'win_requirements.txt'
+else:
+    requires_file = 'requirements.txt'
 
-with open('requirements.txt') as f:
+with open(requires_file) as f:
     requires = f.readlines()
 
+ishell_version = "0.1.5"
 
 setup(
     name='ishell',
-    version=ishell.__version__,
+    version=ishell_version,
     author=u'Ítalo Rossi',
     author_email='italorossib@gmail.com',
     description='Build Interactive Shells with Python',

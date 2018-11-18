@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import ishell
 from setuptools import setup, find_packages
 from sys import platform
 

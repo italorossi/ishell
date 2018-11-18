@@ -3,9 +3,15 @@
 
 import ishell
 from setuptools import setup, find_packages
+from sys import platform
 
+# If we're on Windows, use pyreadline instead of gnureadline
+if platform == 'win32':
+    requires_file = 'win_requirements.txt'
+else:
+    requires_file = 'requirements.txt'
 
-with open('requirements.txt') as f:
+with open(requires_file) as f:
     requires = f.readlines()
 
 

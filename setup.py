@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from ishell import __version__ as ishell_version
 from setuptools import setup, find_packages
 from sys import platform
 
@@ -16,7 +17,7 @@ with open(requires_file) as f:
 
 setup(
     name='ishell',
-    version=ishell.__version__,
+    version=ishell_version,
     author=u'Ítalo Rossi',
     author_email='italorossib@gmail.com',
     description='Build Interactive Shells with Python',

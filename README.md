@@ -3,6 +3,7 @@ ishell
 
 [![PyPI version](https://badge.fury.io/py/ishell.svg)](http://badge.fury.io/py/ishell)
 ![Travis](https://api.travis-ci.org/italorossi/ishell.svg?branch=master)
+![Downloads](https://img.shields.io/pypi/dm/ishell.svg)
 
 Create an interactive shell with Python.
 

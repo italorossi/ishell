@@ -13,7 +13,7 @@ else:
 with open(requires_file) as f:
     requires = f.readlines()
 
-ishell_version = "0.1.7"
+ishell_version = "0.1.8"
 
 setup(
     name='ishell',

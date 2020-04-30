@@ -49,7 +49,11 @@ class Command(Console):
             candidates = self.get_candidates(next_command)
             if candidates and len(candidates) > 1 and buf:
                 logger.debug("More than one candidate, not walking in %s" % buf)
-                return self._next_command(state, buf)
+                if next_command in candidates:
+                    cmd = candidates.pop(next_command)
+                    return cmd.complete(line[1:], buf, state, run, full_line)
+                else:
+                    return self._next_command(state, buf)
             elif candidates and next_command in candidates:
                 logger.debug("Found %s in childs, walking." % next_command)
                 cmd = candidates.pop(next_command)

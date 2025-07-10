@@ -16,6 +16,8 @@ class Command(Console):
         self.childs = {}
         self.dynamic_args = dynamic_args
         self.help = help
+        # Store reference to parent console for state access
+        self.parent_console = None
 
     def log(self, msg):
         logger.info('Command %s - %s' % msg)

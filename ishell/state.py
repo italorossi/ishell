@@ -25,6 +25,7 @@ class ConsoleState:
         self.welcome_message = welcome_message
         self._exit = False
         self._previous_state = None
+        self._console = None  # Reference to parent console for synchronization
         
     @property
     def full_prompt(self):
@@ -42,6 +43,9 @@ class ConsoleState:
         self.prompt = prompt
         if prompt_delim is not None:
             self.prompt_delim = prompt_delim
+        # Notify console if it has a sync method
+        if hasattr(self, '_console') and self._console:
+            self._console._sync_old_attributes()
             
     def set_welcome_message(self, message):
         """Set the welcome message."""
@@ -50,6 +54,9 @@ class ConsoleState:
     def set_exit(self, exit_flag=True):
         """Set the exit flag."""
         self._exit = exit_flag
+        # Notify console if it has a sync method
+        if hasattr(self, '_console') and self._console:
+            self._console._sync_old_attributes()
         
     def should_exit(self):
         """Check if the console should exit."""

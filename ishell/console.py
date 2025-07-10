@@ -5,18 +5,34 @@ import readline
 import traceback
 from builtins import input
 from ishell import logger
+from ishell.state import ConsoleState
 
 
 class Console(object):
     def __init__(self, prompt="Prompt", prompt_delim=">", welcome_message=None):
         self.childs = {}
-        self.prompt = prompt
-        self.prompt_delim = prompt_delim
-        self.welcome_message = welcome_message
+        # Initialize state management
+        self.state = ConsoleState(prompt, prompt_delim, welcome_message)
+        # Set console reference for synchronization
+        self.state._console = self
+        # Keep backward compatibility
+        self.prompt = self.state.prompt
+        self.prompt_delim = self.state.prompt_delim
+        self.welcome_message = self.state.welcome_message
         self._exit = False
+        
+    def _sync_old_attributes(self):
+        """Synchronize old attributes with state."""
+        self.prompt = self.state.prompt
+        self.prompt_delim = self.state.prompt_delim
+        self.welcome_message = self.state.welcome_message
+        self._exit = self.state.should_exit()
 
     def addChild(self, cmd):
         self.childs[cmd.name] = cmd
+        # Set parent console reference for state access
+        if hasattr(cmd, 'parent_console'):
+            cmd.parent_console = self
         return cmd
 
     def get_command(self, cmd_name):
@@ -75,27 +91,28 @@ class Console(object):
         print
 
     def exit(self):
-        self._exit = True
+        self.state.set_exit(True)
+        self._exit = True  # Keep backward compatibility
 
     def loop(self):
         previous_completer = readline.get_completer()
         readline.parse_and_bind("tab: complete")
         readline.set_completer(self.walk)
-        prompt = self.prompt + self.prompt_delim
-        if not ishell._current_prompt:
-            previous_prompt = prompt
-        else:
-            previous_prompt = ishell._current_prompt
+        
+        # Use state management for prompt and welcome message
+        prompt = self.state.get_display_prompt()
+        self.state.display_welcome()
+        
+        # Set global state for backward compatibility (will be removed in future)
         ishell._current_prompt = prompt
-        if self.welcome_message:
-            sys.stdout.write(self.welcome_message + "\n\r")
-        while 1:
+        
+        while True:
             try:
                 sys.stdout.write("\r")
-                if self._exit:
+                if self.state.should_exit():
                     break
                 sys.stdout.write("\033[K")
-                input_ = input(prompt + " ")
+                input_ = input(prompt)
                 if not input_.strip():
                     self.print_childs_help()
                 elif input_ in ('quit', 'exit'):
@@ -110,5 +127,4 @@ class Console(object):
                 print(traceback.format_exc())
                 sys.exit(1)
 
-        ishell._current_prompt = previous_prompt
         readline.set_completer(previous_completer)
